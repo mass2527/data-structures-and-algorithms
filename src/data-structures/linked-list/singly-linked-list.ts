@@ -65,9 +65,6 @@ export class SinglyLinkedList<T> implements LinkedList<Node<T>> {
   }
 
   remove(node: Node<T>): Node<T> | undefined {
-    let currentIndex = 0;
-    let currentNode = this.head;
-
     const foundNode = this.find(node);
     return typeof foundNode === "undefined"
       ? undefined
@@ -75,9 +72,6 @@ export class SinglyLinkedList<T> implements LinkedList<Node<T>> {
   }
 
   removeAt(index: number): Node<T> | undefined {
-    let currentIndex = 0;
-    let currentNode = this.head;
-
     const foundNode = this.find(index);
     if (!foundNode) {
       return undefined;
@@ -136,9 +130,6 @@ export class SinglyLinkedList<T> implements LinkedList<Node<T>> {
   }
 
   get(index: number): Node<T> | undefined {
-    let currentIndex = 0;
-    let currentNode = this.head;
-
     return this.find(index)?.currentNode;
   }
 
