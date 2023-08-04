@@ -92,7 +92,7 @@ test("remove - target node is either head or tail", () => {
   const doublyLinkedList = new DoublyLinkedListMaker();
   const firstNode = new DoublyLinkedListNodeMaker(1);
 
-  expect(doublyLinkedList.remove(firstNode)).toBeUndefined();
+  expect(doublyLinkedList.remove(firstNode)).toBeNull();
   expect(doublyLinkedList.length).toBe(0);
 
   doublyLinkedList.append(firstNode);
@@ -148,7 +148,7 @@ test("remove - target node is neither head nor tail", () => {
 
 test("removeAt - target node is either head or tail", () => {
   const doublyLinkedList = new DoublyLinkedListMaker();
-  expect(doublyLinkedList.removeAt(0)).toBeUndefined();
+  expect(doublyLinkedList.removeAt(0)).toBeNull();
   expect(doublyLinkedList.length).toBe(0);
 
   const firstNode = new DoublyLinkedListNodeMaker(1);
@@ -253,7 +253,7 @@ test("prepend - non-initial", () => {
 
 test("get", () => {
   const doublyLinkedList = new DoublyLinkedListMaker();
-  expect(doublyLinkedList.get(0)).toBeUndefined();
+  expect(doublyLinkedList.get(0)).toBeNull();
 
   const firstNode = new DoublyLinkedListNodeMaker(1);
   doublyLinkedList.append(firstNode);

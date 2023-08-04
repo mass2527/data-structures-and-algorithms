@@ -47,7 +47,7 @@ test("insertAt", () => {
 test("remove", () => {
   const singlyLinkedList = new SinglyLinkedListMaker();
   const firstNode = new SinglyLinkedListNodeMaker(1);
-  expect(singlyLinkedList.remove(firstNode)).toBeUndefined();
+  expect(singlyLinkedList.remove(firstNode)).toBeNull();
 
   singlyLinkedList.append(firstNode);
   expect(singlyLinkedList.remove(firstNode)).toBe(firstNode);
@@ -64,7 +64,7 @@ test("remove", () => {
 
 test("removeAt", () => {
   const singlyLinkedList = new SinglyLinkedListMaker();
-  expect(singlyLinkedList.removeAt(0)).toBeUndefined();
+  expect(singlyLinkedList.removeAt(0)).toBeNull();
 
   const firstNode = new SinglyLinkedListNodeMaker(1);
   singlyLinkedList.append(firstNode);
@@ -128,5 +128,5 @@ test("get", () => {
 
   expect(singlyLinkedList.get(0)).toBe(firstNode);
   expect(singlyLinkedList.get(1)).toBe(secondNode);
-  expect(singlyLinkedList.get(2)).toBeUndefined();
+  expect(singlyLinkedList.get(2)).toBeNull();
 });

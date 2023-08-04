@@ -3,9 +3,9 @@ export interface LinkedList<T> {
   get tail(): T | null;
   get length(): number;
   insertAt(node: T, index: number): void;
-  remove(node: T): T | undefined;
-  removeAt(index: number): T | undefined;
+  remove(node: T): T | null;
+  removeAt(index: number): T | null;
   append(node: T): void;
   prepend(node: T): void;
-  get(index: number): T | undefined;
+  get(index: number): T | null;
 }

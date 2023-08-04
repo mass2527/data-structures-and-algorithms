@@ -1,7 +1,7 @@
 import { invariant } from "../../utils";
 import { LinkedList } from "./linked-list.types";
 
-interface SinglyLinkedListNode<T> {
+export interface SinglyLinkedListNode<T> {
   value: T;
   next: SinglyLinkedListNode<T> | null;
 }
@@ -66,17 +66,15 @@ export class SinglyLinkedListMaker<T>
     this._length++;
   }
 
-  remove(node: SinglyLinkedListNode<T>): SinglyLinkedListNode<T> | undefined {
+  remove(node: SinglyLinkedListNode<T>) {
     const foundNode = this.find(node);
-    return typeof foundNode === "undefined"
-      ? undefined
-      : this.removeAt(foundNode.currentIndex);
+    return foundNode ? this.removeAt(foundNode.currentIndex) : null;
   }
 
-  removeAt(index: number): SinglyLinkedListNode<T> | undefined {
+  removeAt(index: number) {
     const foundNode = this.find(index);
     if (!foundNode) {
-      return undefined;
+      return null;
     }
 
     if (
@@ -131,8 +129,8 @@ export class SinglyLinkedListMaker<T>
     this._length++;
   }
 
-  get(index: number): SinglyLinkedListNode<T> | undefined {
-    return this.find(index)?.currentNode;
+  get(index: number) {
+    return this.find(index)?.currentNode ?? null;
   }
 
   private find(indexOrNode: number | SinglyLinkedListNode<T>) {
@@ -150,7 +148,7 @@ export class SinglyLinkedListMaker<T>
       }
     }
 
-    return undefined;
+    return null;
   }
 
   private isNode<T>(value: any): value is SinglyLinkedListNode<T> {

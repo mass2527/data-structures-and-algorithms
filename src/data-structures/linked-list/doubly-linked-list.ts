@@ -116,7 +116,7 @@ export class DoublyLinkedListMaker<T> implements LinkedList<Node<T>> {
   }
 
   get(index: number) {
-    return this.find(index)?.node;
+    return this.find(index)?.node ?? null;
   }
 
   private find(indexOrNode: number | Node<T>) {
@@ -143,7 +143,7 @@ export class DoublyLinkedListMaker<T> implements LinkedList<Node<T>> {
   private _remove(indexOrNode: number | Node<T>) {
     const target = this.find(indexOrNode);
     if (!target) {
-      return undefined;
+      return null;
     }
 
     if (target.node === this.head && target.node === this.tail) {
