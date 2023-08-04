@@ -1,12 +1,12 @@
 import { invariant } from "../../utils";
 import { LinkedList } from "./linked-list.types";
 
-interface Node<T> {
+interface SinglyLinkedListNode<T> {
   value: T;
-  next: Node<T> | null;
+  next: SinglyLinkedListNode<T> | null;
 }
 
-export class SinglyLinkedListNode<T> implements Node<T> {
+export class SinglyLinkedListNodeMaker<T> implements SinglyLinkedListNode<T> {
   next = null;
 
   constructor(public value: T) {
@@ -14,9 +14,11 @@ export class SinglyLinkedListNode<T> implements Node<T> {
   }
 }
 
-export class SinglyLinkedList<T> implements LinkedList<Node<T>> {
-  private _head: Node<T> | null = null;
-  private _tail: Node<T> | null = null;
+export class SinglyLinkedListMaker<T>
+  implements LinkedList<SinglyLinkedListNode<T>>
+{
+  private _head: SinglyLinkedListNode<T> | null = null;
+  private _tail: SinglyLinkedListNode<T> | null = null;
   private _length = 0;
 
   get head() {
@@ -29,7 +31,7 @@ export class SinglyLinkedList<T> implements LinkedList<Node<T>> {
     return this._length;
   }
 
-  insertAt(node: Node<T>, index: number) {
+  insertAt(node: SinglyLinkedListNode<T>, index: number) {
     if (
       (this.length === 0 && index !== 0) ||
       (this.length > 0 && index > this.length)
@@ -64,14 +66,14 @@ export class SinglyLinkedList<T> implements LinkedList<Node<T>> {
     this._length++;
   }
 
-  remove(node: Node<T>): Node<T> | undefined {
+  remove(node: SinglyLinkedListNode<T>): SinglyLinkedListNode<T> | undefined {
     const foundNode = this.find(node);
     return typeof foundNode === "undefined"
       ? undefined
       : this.removeAt(foundNode.currentIndex);
   }
 
-  removeAt(index: number): Node<T> | undefined {
+  removeAt(index: number): SinglyLinkedListNode<T> | undefined {
     const foundNode = this.find(index);
     if (!foundNode) {
       return undefined;
@@ -106,7 +108,7 @@ export class SinglyLinkedList<T> implements LinkedList<Node<T>> {
     return foundNode.currentNode;
   }
 
-  append(node: Node<T>) {
+  append(node: SinglyLinkedListNode<T>) {
     if (this.length === 0) {
       this._head = node;
       this._tail = node;
@@ -118,7 +120,7 @@ export class SinglyLinkedList<T> implements LinkedList<Node<T>> {
     this._length++;
   }
 
-  prepend(node: Node<T>) {
+  prepend(node: SinglyLinkedListNode<T>) {
     if (this.length === 0) {
       this._head = node;
       this._tail = node;
@@ -129,11 +131,11 @@ export class SinglyLinkedList<T> implements LinkedList<Node<T>> {
     this._length++;
   }
 
-  get(index: number): Node<T> | undefined {
+  get(index: number): SinglyLinkedListNode<T> | undefined {
     return this.find(index)?.currentNode;
   }
 
-  private find(indexOrNode: number | Node<T>) {
+  private find(indexOrNode: number | SinglyLinkedListNode<T>) {
     let currentIndex = 0;
     let currentNode = this.head;
 
@@ -151,7 +153,7 @@ export class SinglyLinkedList<T> implements LinkedList<Node<T>> {
     return undefined;
   }
 
-  private isNode<T>(value: any): value is Node<T> {
+  private isNode<T>(value: any): value is SinglyLinkedListNode<T> {
     return typeof value === "object" && "value" in value && "next" in value;
   }
 }

@@ -7,7 +7,7 @@ interface Node<T> {
   next: Node<T> | null;
 }
 
-export class DoublyLinkedListNode<T> implements Node<T> {
+export class DoublyLinkedListNodeMaker<T> implements Node<T> {
   previous = null;
   next = null;
 
@@ -16,7 +16,7 @@ export class DoublyLinkedListNode<T> implements Node<T> {
   }
 }
 
-export class DoublyLinkedList<T> implements LinkedList<Node<T>> {
+export class DoublyLinkedListMaker<T> implements LinkedList<Node<T>> {
   private _head: Node<T> | null = null;
   private _tail: Node<T> | null = null;
   private _length = 0;

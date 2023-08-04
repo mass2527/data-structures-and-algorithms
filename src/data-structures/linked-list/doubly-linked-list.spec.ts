@@ -1,13 +1,16 @@
-import { DoublyLinkedList, DoublyLinkedListNode } from "./doubly-linked-list";
+import {
+  DoublyLinkedListMaker,
+  DoublyLinkedListNodeMaker,
+} from "./doubly-linked-list";
 
 test("initial length: 0", () => {
-  const doublyLinkedList = new DoublyLinkedList();
+  const doublyLinkedList = new DoublyLinkedListMaker();
   expect(doublyLinkedList.length).toBe(0);
 });
 
 test("insertAt - initial", () => {
-  const doublyLinkedList = new DoublyLinkedList();
-  const firstNode = new DoublyLinkedListNode(1);
+  const doublyLinkedList = new DoublyLinkedListMaker();
+  const firstNode = new DoublyLinkedListNodeMaker(1);
   doublyLinkedList.insertAt(firstNode, 0);
   expect(doublyLinkedList.head).toBe(firstNode);
   expect(doublyLinkedList.tail).toBe(firstNode);
@@ -15,9 +18,9 @@ test("insertAt - initial", () => {
 });
 
 test("insertAt - target node is either head or tail", () => {
-  const doublyLinkedList = new DoublyLinkedList();
-  const firstNode = new DoublyLinkedListNode(1);
-  const secondNode = new DoublyLinkedListNode(2);
+  const doublyLinkedList = new DoublyLinkedListMaker();
+  const firstNode = new DoublyLinkedListNodeMaker(1);
+  const secondNode = new DoublyLinkedListNodeMaker(2);
   doublyLinkedList.insertAt(firstNode, 0);
   doublyLinkedList.insertAt(secondNode, 0);
   expect(doublyLinkedList.head).toBe(secondNode);
@@ -30,10 +33,10 @@ test("insertAt - target node is either head or tail", () => {
 });
 
 test("insertAt - target node is head", () => {
-  const doublyLinkedList = new DoublyLinkedList();
-  const firstNode = new DoublyLinkedListNode(1);
-  const secondNode = new DoublyLinkedListNode(2);
-  const thirdNode = new DoublyLinkedListNode(3);
+  const doublyLinkedList = new DoublyLinkedListMaker();
+  const firstNode = new DoublyLinkedListNodeMaker(1);
+  const secondNode = new DoublyLinkedListNodeMaker(2);
+  const thirdNode = new DoublyLinkedListNodeMaker(3);
   doublyLinkedList.append(firstNode);
   doublyLinkedList.append(secondNode);
   doublyLinkedList.insertAt(thirdNode, 0);
@@ -49,10 +52,10 @@ test("insertAt - target node is head", () => {
 });
 
 test("insertAt - target node is tail", () => {
-  const doublyLinkedList = new DoublyLinkedList();
-  const firstNode = new DoublyLinkedListNode(1);
-  const secondNode = new DoublyLinkedListNode(2);
-  const thirdNode = new DoublyLinkedListNode(3);
+  const doublyLinkedList = new DoublyLinkedListMaker();
+  const firstNode = new DoublyLinkedListNodeMaker(1);
+  const secondNode = new DoublyLinkedListNodeMaker(2);
+  const thirdNode = new DoublyLinkedListNodeMaker(3);
   doublyLinkedList.append(firstNode);
   doublyLinkedList.append(secondNode);
   doublyLinkedList.insertAt(thirdNode, 1);
@@ -66,11 +69,11 @@ test("insertAt - target node is tail", () => {
 });
 
 test("insertAt - target node is neither head nor tail", () => {
-  const doublyLinkedList = new DoublyLinkedList();
-  const firstNode = new DoublyLinkedListNode(1);
-  const secondNode = new DoublyLinkedListNode(2);
-  const thirdNode = new DoublyLinkedListNode(3);
-  const fourthNode = new DoublyLinkedListNode(4);
+  const doublyLinkedList = new DoublyLinkedListMaker();
+  const firstNode = new DoublyLinkedListNodeMaker(1);
+  const secondNode = new DoublyLinkedListNodeMaker(2);
+  const thirdNode = new DoublyLinkedListNodeMaker(3);
+  const fourthNode = new DoublyLinkedListNodeMaker(4);
 
   doublyLinkedList.append(firstNode);
   doublyLinkedList.append(secondNode);
@@ -86,8 +89,8 @@ test("insertAt - target node is neither head nor tail", () => {
 });
 
 test("remove - target node is either head or tail", () => {
-  const doublyLinkedList = new DoublyLinkedList();
-  const firstNode = new DoublyLinkedListNode(1);
+  const doublyLinkedList = new DoublyLinkedListMaker();
+  const firstNode = new DoublyLinkedListNodeMaker(1);
 
   expect(doublyLinkedList.remove(firstNode)).toBeUndefined();
   expect(doublyLinkedList.length).toBe(0);
@@ -98,9 +101,9 @@ test("remove - target node is either head or tail", () => {
 });
 
 test("remove - target node is head", () => {
-  const doublyLinkedList = new DoublyLinkedList();
-  const firstNode = new DoublyLinkedListNode(1);
-  const secondNode = new DoublyLinkedListNode(2);
+  const doublyLinkedList = new DoublyLinkedListMaker();
+  const firstNode = new DoublyLinkedListNodeMaker(1);
+  const secondNode = new DoublyLinkedListNodeMaker(2);
   doublyLinkedList.append(firstNode);
   doublyLinkedList.append(secondNode);
   expect(doublyLinkedList.remove(firstNode)).toBe(firstNode);
@@ -112,9 +115,9 @@ test("remove - target node is head", () => {
 });
 
 test("remove - target node is tail", () => {
-  const doublyLinkedList = new DoublyLinkedList();
-  const firstNode = new DoublyLinkedListNode(1);
-  const secondNode = new DoublyLinkedListNode(2);
+  const doublyLinkedList = new DoublyLinkedListMaker();
+  const firstNode = new DoublyLinkedListNodeMaker(1);
+  const secondNode = new DoublyLinkedListNodeMaker(2);
   doublyLinkedList.append(firstNode);
   doublyLinkedList.append(secondNode);
   expect(doublyLinkedList.remove(secondNode)).toBe(secondNode);
@@ -126,10 +129,10 @@ test("remove - target node is tail", () => {
 });
 
 test("remove - target node is neither head nor tail", () => {
-  const doublyLinkedList = new DoublyLinkedList();
-  const firstNode = new DoublyLinkedListNode(1);
-  const secondNode = new DoublyLinkedListNode(2);
-  const thirdNode = new DoublyLinkedListNode(3);
+  const doublyLinkedList = new DoublyLinkedListMaker();
+  const firstNode = new DoublyLinkedListNodeMaker(1);
+  const secondNode = new DoublyLinkedListNodeMaker(2);
+  const thirdNode = new DoublyLinkedListNodeMaker(3);
   doublyLinkedList.append(firstNode);
   doublyLinkedList.append(secondNode);
   doublyLinkedList.append(thirdNode);
@@ -144,20 +147,20 @@ test("remove - target node is neither head nor tail", () => {
 });
 
 test("removeAt - target node is either head or tail", () => {
-  const doublyLinkedList = new DoublyLinkedList();
+  const doublyLinkedList = new DoublyLinkedListMaker();
   expect(doublyLinkedList.removeAt(0)).toBeUndefined();
   expect(doublyLinkedList.length).toBe(0);
 
-  const firstNode = new DoublyLinkedListNode(1);
+  const firstNode = new DoublyLinkedListNodeMaker(1);
   doublyLinkedList.append(firstNode);
   expect(doublyLinkedList.removeAt(0)).toBe(firstNode);
   expect(doublyLinkedList.length).toBe(0);
 });
 
 test("removeAt - target node is head", () => {
-  const doublyLinkedList = new DoublyLinkedList();
-  const firstNode = new DoublyLinkedListNode(1);
-  const secondNode = new DoublyLinkedListNode(2);
+  const doublyLinkedList = new DoublyLinkedListMaker();
+  const firstNode = new DoublyLinkedListNodeMaker(1);
+  const secondNode = new DoublyLinkedListNodeMaker(2);
   doublyLinkedList.append(firstNode);
   doublyLinkedList.append(secondNode);
   expect(doublyLinkedList.removeAt(0)).toBe(firstNode);
@@ -169,9 +172,9 @@ test("removeAt - target node is head", () => {
 });
 
 test("removeAt - target node is tail", () => {
-  const doublyLinkedList = new DoublyLinkedList();
-  const firstNode = new DoublyLinkedListNode(1);
-  const secondNode = new DoublyLinkedListNode(2);
+  const doublyLinkedList = new DoublyLinkedListMaker();
+  const firstNode = new DoublyLinkedListNodeMaker(1);
+  const secondNode = new DoublyLinkedListNodeMaker(2);
   doublyLinkedList.append(firstNode);
   doublyLinkedList.append(secondNode);
   expect(doublyLinkedList.removeAt(1)).toBe(secondNode);
@@ -183,10 +186,10 @@ test("removeAt - target node is tail", () => {
 });
 
 test("removeAt - target node is neither head nor tail", () => {
-  const doublyLinkedList = new DoublyLinkedList();
-  const firstNode = new DoublyLinkedListNode(1);
-  const secondNode = new DoublyLinkedListNode(2);
-  const thirdNode = new DoublyLinkedListNode(3);
+  const doublyLinkedList = new DoublyLinkedListMaker();
+  const firstNode = new DoublyLinkedListNodeMaker(1);
+  const secondNode = new DoublyLinkedListNodeMaker(2);
+  const thirdNode = new DoublyLinkedListNodeMaker(3);
   doublyLinkedList.append(firstNode);
   doublyLinkedList.append(secondNode);
   doublyLinkedList.append(thirdNode);
@@ -201,8 +204,8 @@ test("removeAt - target node is neither head nor tail", () => {
 });
 
 test("append - initial", () => {
-  const doublyLinkedList = new DoublyLinkedList();
-  const firstNode = new DoublyLinkedListNode(1);
+  const doublyLinkedList = new DoublyLinkedListMaker();
+  const firstNode = new DoublyLinkedListNodeMaker(1);
   doublyLinkedList.append(firstNode);
   expect(doublyLinkedList.head).toBe(firstNode);
   expect(doublyLinkedList.head?.next).toBeNull();
@@ -212,9 +215,9 @@ test("append - initial", () => {
 });
 
 test("append - non-initial", () => {
-  const doublyLinkedList = new DoublyLinkedList();
-  const firstNode = new DoublyLinkedListNode(1);
-  const secondNode = new DoublyLinkedListNode(2);
+  const doublyLinkedList = new DoublyLinkedListMaker();
+  const firstNode = new DoublyLinkedListNodeMaker(1);
+  const secondNode = new DoublyLinkedListNodeMaker(2);
   doublyLinkedList.append(firstNode);
   doublyLinkedList.append(secondNode);
   expect(doublyLinkedList.head).toBe(firstNode);
@@ -225,8 +228,8 @@ test("append - non-initial", () => {
 });
 
 test("prepend - initial", () => {
-  const doublyLinkedList = new DoublyLinkedList();
-  const firstNode = new DoublyLinkedListNode(1);
+  const doublyLinkedList = new DoublyLinkedListMaker();
+  const firstNode = new DoublyLinkedListNodeMaker(1);
   doublyLinkedList.prepend(firstNode);
   expect(doublyLinkedList.head).toBe(firstNode);
   expect(doublyLinkedList.head?.next).toBeNull();
@@ -236,9 +239,9 @@ test("prepend - initial", () => {
 });
 
 test("prepend - non-initial", () => {
-  const doublyLinkedList = new DoublyLinkedList();
-  const firstNode = new DoublyLinkedListNode(1);
-  const secondNode = new DoublyLinkedListNode(2);
+  const doublyLinkedList = new DoublyLinkedListMaker();
+  const firstNode = new DoublyLinkedListNodeMaker(1);
+  const secondNode = new DoublyLinkedListNodeMaker(2);
   doublyLinkedList.prepend(firstNode);
   doublyLinkedList.prepend(secondNode);
   expect(doublyLinkedList.head).toBe(secondNode);
@@ -249,10 +252,10 @@ test("prepend - non-initial", () => {
 });
 
 test("get", () => {
-  const doublyLinkedList = new DoublyLinkedList();
+  const doublyLinkedList = new DoublyLinkedListMaker();
   expect(doublyLinkedList.get(0)).toBeUndefined();
 
-  const firstNode = new DoublyLinkedListNode(1);
+  const firstNode = new DoublyLinkedListNodeMaker(1);
   doublyLinkedList.append(firstNode);
   expect(doublyLinkedList.get(0)).toBe(firstNode);
 });
