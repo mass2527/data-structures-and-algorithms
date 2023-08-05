@@ -1,132 +1,115 @@
-import {
-  SinglyLinkedListMaker,
-  SinglyLinkedListNodeMaker,
-} from "./singly-linked-list";
+import { SinglyLinkedListMaker } from "./singly-linked-list";
 
 test("get length", () => {
   const singlyLinkedList = new SinglyLinkedListMaker();
+
   expect("length" in singlyLinkedList).toBe(true);
   expect(singlyLinkedList.length).toBe(0);
 
-  const firstNode = new SinglyLinkedListNodeMaker(1);
-  singlyLinkedList.append(firstNode);
+  singlyLinkedList.append(1);
   expect(singlyLinkedList.length).toBe(1);
 
-  const secondNode = new SinglyLinkedListNodeMaker(1);
-  singlyLinkedList.append(secondNode);
+  singlyLinkedList.append(2);
   expect(singlyLinkedList.length).toBe(2);
 });
 
 test("insertAt", () => {
   const singlyLinkedList = new SinglyLinkedListMaker();
 
-  const firstNode = new SinglyLinkedListNodeMaker(1);
-  singlyLinkedList.insertAt(firstNode, 1);
+  singlyLinkedList.insertAt(1, 1);
   expect(singlyLinkedList.length).toBe(0);
 
-  singlyLinkedList.insertAt(firstNode, 0);
-  expect(singlyLinkedList.head).toBe(firstNode);
-  expect(singlyLinkedList.tail).toBe(firstNode);
+  singlyLinkedList.insertAt(1, 0);
+  expect(singlyLinkedList.head?.value).toBe(1);
+  expect(singlyLinkedList.tail?.value).toBe(1);
 
-  const secondNode = new SinglyLinkedListNodeMaker(2);
-  singlyLinkedList.insertAt(secondNode, 0);
-  expect(singlyLinkedList.head).toBe(secondNode);
-  expect(singlyLinkedList.tail).toBe(firstNode);
+  singlyLinkedList.insertAt(2, 0);
+  expect(singlyLinkedList.head?.value).toBe(2);
+  expect(singlyLinkedList.tail?.value).toBe(1);
 
-  const thirdNode = new SinglyLinkedListNodeMaker(3);
-  singlyLinkedList.insertAt(thirdNode, 1);
-  expect(singlyLinkedList.head).toBe(secondNode);
-  expect(singlyLinkedList.head?.next).toBe(thirdNode);
-  expect(singlyLinkedList.tail).toBe(firstNode);
+  singlyLinkedList.insertAt(3, 1);
+  expect(singlyLinkedList.head?.value).toBe(2);
+  expect(singlyLinkedList.head?.next?.value).toBe(3);
+  expect(singlyLinkedList.tail?.value).toBe(1);
 
-  const fourthNode = new SinglyLinkedListNodeMaker(4);
-  singlyLinkedList.insertAt(fourthNode, 1);
-  expect(singlyLinkedList.head?.next).toBe(fourthNode);
+  singlyLinkedList.insertAt(4, 1);
+  expect(singlyLinkedList.head?.next?.value).toBe(4);
 });
 
 test("remove", () => {
   const singlyLinkedList = new SinglyLinkedListMaker();
-  const firstNode = new SinglyLinkedListNodeMaker(1);
-  expect(singlyLinkedList.remove(firstNode)).toBeNull();
 
-  singlyLinkedList.append(firstNode);
-  expect(singlyLinkedList.remove(firstNode)).toBe(firstNode);
+  expect(singlyLinkedList.remove(1)).toBeNull();
+
+  singlyLinkedList.append(1);
+  expect(singlyLinkedList.remove(1)).toBe(1);
   expect(singlyLinkedList.head).toBeNull();
   expect(singlyLinkedList.tail).toBeNull();
 
-  singlyLinkedList.append(firstNode);
-  const secondNode = new SinglyLinkedListNodeMaker(2);
-  singlyLinkedList.append(secondNode);
-  expect(singlyLinkedList.remove(secondNode)).toBe(secondNode);
-  expect(singlyLinkedList.head).toBe(firstNode);
-  expect(singlyLinkedList.tail).toBe(firstNode);
+  singlyLinkedList.append(1);
+  singlyLinkedList.append(2);
+  expect(singlyLinkedList.remove(2)).toBe(2);
+  expect(singlyLinkedList.head?.value).toBe(1);
+  expect(singlyLinkedList.tail?.value).toBe(1);
 });
 
 test("removeAt", () => {
   const singlyLinkedList = new SinglyLinkedListMaker();
+
   expect(singlyLinkedList.removeAt(0)).toBeNull();
 
-  const firstNode = new SinglyLinkedListNodeMaker(1);
-  singlyLinkedList.append(firstNode);
-  expect(singlyLinkedList.removeAt(0)).toBe(firstNode);
+  singlyLinkedList.append(1);
+  expect(singlyLinkedList.removeAt(0)).toBe(1);
   expect(singlyLinkedList.head).toBeNull();
   expect(singlyLinkedList.tail).toBeNull();
 
-  singlyLinkedList.append(firstNode);
-  const secondNode = new SinglyLinkedListNodeMaker(2);
-  singlyLinkedList.append(secondNode);
-  expect(singlyLinkedList.removeAt(1)).toBe(secondNode);
-  expect(singlyLinkedList.head).toBe(firstNode);
-  expect(singlyLinkedList.tail).toBe(firstNode);
+  singlyLinkedList.append(1);
+  singlyLinkedList.append(2);
+  expect(singlyLinkedList.removeAt(1)).toBe(2);
+  expect(singlyLinkedList.head?.value).toBe(1);
+  expect(singlyLinkedList.tail?.value).toBe(1);
 
-  singlyLinkedList.append(secondNode);
-  const thirdNode = new SinglyLinkedListNodeMaker(3);
-  singlyLinkedList.append(thirdNode);
+  singlyLinkedList.append(2);
+  singlyLinkedList.append(3);
   singlyLinkedList.removeAt(1);
-  expect(singlyLinkedList.head).toBe(firstNode);
-  expect(singlyLinkedList.head?.next).toBe(thirdNode);
-  expect(singlyLinkedList.tail).toBe(thirdNode);
+  expect(singlyLinkedList.head?.value).toBe(1);
+  expect(singlyLinkedList.head?.next?.value).toBe(3);
+  expect(singlyLinkedList.tail?.value).toBe(3);
 });
 
 test("append", () => {
   const singlyLinkedList = new SinglyLinkedListMaker();
 
-  const firstNode = new SinglyLinkedListNodeMaker(1);
-  singlyLinkedList.append(firstNode);
-  expect(singlyLinkedList.head).toBe(firstNode);
-  expect(singlyLinkedList.tail).toBe(firstNode);
+  singlyLinkedList.append(1);
+  expect(singlyLinkedList.head?.value).toBe(1);
+  expect(singlyLinkedList.tail?.value).toBe(1);
   expect(singlyLinkedList.length).toBe(1);
 
-  const secondNode = new SinglyLinkedListNodeMaker(2);
-  singlyLinkedList.append(secondNode);
-  expect(singlyLinkedList.head).toBe(firstNode);
-  expect(singlyLinkedList.tail).toBe(secondNode);
+  singlyLinkedList.append(2);
+  expect(singlyLinkedList.head?.value).toBe(1);
+  expect(singlyLinkedList.tail?.value).toBe(2);
   expect(singlyLinkedList.length).toBe(2);
 });
 
 test("prepend", () => {
   const singlyLinkedList = new SinglyLinkedListMaker();
-  const firstNode = new SinglyLinkedListNodeMaker(1);
-  singlyLinkedList.prepend(firstNode);
-  expect(singlyLinkedList.head).toBe(firstNode);
-  expect(singlyLinkedList.tail).toBe(firstNode);
 
-  const secondNode = new SinglyLinkedListNodeMaker(2);
-  singlyLinkedList.prepend(secondNode);
-  expect(singlyLinkedList.head).toBe(secondNode);
-  expect(singlyLinkedList.tail).toBe(firstNode);
+  singlyLinkedList.prepend(1);
+  expect(singlyLinkedList.head?.value).toBe(1);
+  expect(singlyLinkedList.tail?.value).toBe(1);
+
+  singlyLinkedList.prepend(2);
+  expect(singlyLinkedList.head?.value).toBe(2);
+  expect(singlyLinkedList.tail?.value).toBe(1);
 });
 
 test("get", () => {
   const singlyLinkedList = new SinglyLinkedListMaker();
 
-  const firstNode = new SinglyLinkedListNodeMaker(1);
-  singlyLinkedList.append(firstNode);
+  singlyLinkedList.append(1);
+  singlyLinkedList.append(2);
 
-  const secondNode = new SinglyLinkedListNodeMaker(2);
-  singlyLinkedList.append(secondNode);
-
-  expect(singlyLinkedList.get(0)).toBe(firstNode);
-  expect(singlyLinkedList.get(1)).toBe(secondNode);
+  expect(singlyLinkedList.get(0)).toBe(1);
+  expect(singlyLinkedList.get(1)).toBe(2);
   expect(singlyLinkedList.get(2)).toBeNull();
 });

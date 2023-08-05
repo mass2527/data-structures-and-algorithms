@@ -1,14 +1,23 @@
-import { LinkedList } from "./linked-list.types";
+import {
+  DoublyLinkedListNode,
+  LinkedList,
+  SinglyLinkedListNode,
+} from "./linked-list.types";
 
 interface Queue<T> {
   get length(): number;
-  enqueue(node: T): void;
+  enqueue(value: T): void;
   dequeue(): T | null;
   peek(): T | null;
 }
 
 export class QueueMaker<T> implements Queue<T> {
-  constructor(private linkedList: LinkedList<T>) {
+  constructor(
+    private linkedList: LinkedList<
+      T,
+      SinglyLinkedListNode<T> | DoublyLinkedListNode<T>
+    >
+  ) {
     this.linkedList = linkedList;
   }
 
@@ -16,8 +25,8 @@ export class QueueMaker<T> implements Queue<T> {
     return this.linkedList.length;
   }
 
-  enqueue(node: T) {
-    this.linkedList.append(node);
+  enqueue(value: T) {
+    this.linkedList.append(value);
   }
 
   dequeue() {
@@ -25,6 +34,6 @@ export class QueueMaker<T> implements Queue<T> {
   }
 
   peek() {
-    return this.linkedList.head;
+    return this.linkedList.get(0);
   }
 }

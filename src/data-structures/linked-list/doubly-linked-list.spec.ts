@@ -1,114 +1,101 @@
-import {
-  DoublyLinkedListMaker,
-  DoublyLinkedListNodeMaker,
-} from "./doubly-linked-list";
+import { DoublyLinkedListMaker } from "./doubly-linked-list";
 
 test("initial length: 0", () => {
   const doublyLinkedList = new DoublyLinkedListMaker();
+
   expect(doublyLinkedList.length).toBe(0);
 });
 
 test("insertAt - initial", () => {
   const doublyLinkedList = new DoublyLinkedListMaker();
-  const firstNode = new DoublyLinkedListNodeMaker(1);
-  doublyLinkedList.insertAt(firstNode, 0);
-  expect(doublyLinkedList.head).toBe(firstNode);
-  expect(doublyLinkedList.tail).toBe(firstNode);
+
+  doublyLinkedList.insertAt(1, 0);
+  expect(doublyLinkedList.head?.value).toBe(1);
+  expect(doublyLinkedList.tail?.value).toBe(1);
   expect(doublyLinkedList.length).toBe(1);
 });
 
 test("insertAt - target node is either head or tail", () => {
   const doublyLinkedList = new DoublyLinkedListMaker();
-  const firstNode = new DoublyLinkedListNodeMaker(1);
-  const secondNode = new DoublyLinkedListNodeMaker(2);
-  doublyLinkedList.insertAt(firstNode, 0);
-  doublyLinkedList.insertAt(secondNode, 0);
-  expect(doublyLinkedList.head).toBe(secondNode);
-  expect(doublyLinkedList.head?.next).toBe(firstNode);
+
+  doublyLinkedList.insertAt(1, 0);
+  doublyLinkedList.insertAt(2, 0);
+  expect(doublyLinkedList.head?.value).toBe(2);
+  expect(doublyLinkedList.head?.next?.value).toBe(1);
   expect(doublyLinkedList.head?.previous).toBeNull();
-  expect(doublyLinkedList.tail).toBe(firstNode);
-  expect(doublyLinkedList.tail?.previous).toBe(secondNode);
+  expect(doublyLinkedList.tail?.value).toBe(1);
+  expect(doublyLinkedList.tail?.previous?.value).toBe(2);
   expect(doublyLinkedList.tail?.next).toBeNull();
   expect(doublyLinkedList.length).toBe(2);
 });
 
 test("insertAt - target node is head", () => {
   const doublyLinkedList = new DoublyLinkedListMaker();
-  const firstNode = new DoublyLinkedListNodeMaker(1);
-  const secondNode = new DoublyLinkedListNodeMaker(2);
-  const thirdNode = new DoublyLinkedListNodeMaker(3);
-  doublyLinkedList.append(firstNode);
-  doublyLinkedList.append(secondNode);
-  doublyLinkedList.insertAt(thirdNode, 0);
-  expect(doublyLinkedList.head).toBe(thirdNode);
-  expect(doublyLinkedList.tail).toBe(secondNode);
+
+  doublyLinkedList.append(1);
+  doublyLinkedList.append(2);
+  doublyLinkedList.insertAt(3, 0);
+  expect(doublyLinkedList.head?.value).toBe(3);
+  expect(doublyLinkedList.tail?.value).toBe(2);
   expect(doublyLinkedList.tail?.next).toBeNull();
-  expect(doublyLinkedList.head?.next).toBe(firstNode);
+  expect(doublyLinkedList.head?.next?.value).toBe(1);
   expect(doublyLinkedList.head?.previous).toBeNull();
-  expect(doublyLinkedList.tail).toBe(secondNode);
-  expect(doublyLinkedList.tail?.previous).toBe(firstNode);
+  expect(doublyLinkedList.tail?.value).toBe(2);
+  expect(doublyLinkedList.tail?.previous?.value).toBe(1);
   expect(doublyLinkedList.tail?.next).toBeNull();
   expect(doublyLinkedList.length).toBe(3);
 });
 
 test("insertAt - target node is tail", () => {
   const doublyLinkedList = new DoublyLinkedListMaker();
-  const firstNode = new DoublyLinkedListNodeMaker(1);
-  const secondNode = new DoublyLinkedListNodeMaker(2);
-  const thirdNode = new DoublyLinkedListNodeMaker(3);
-  doublyLinkedList.append(firstNode);
-  doublyLinkedList.append(secondNode);
-  doublyLinkedList.insertAt(thirdNode, 1);
-  expect(doublyLinkedList.head).toBe(firstNode);
+
+  doublyLinkedList.append(1);
+  doublyLinkedList.append(2);
+  doublyLinkedList.insertAt(3, 1);
+  expect(doublyLinkedList.head?.value).toBe(1);
   expect(doublyLinkedList.head?.previous).toBeNull();
-  expect(doublyLinkedList.head?.next).toBe(thirdNode);
-  expect(doublyLinkedList.tail).toBe(secondNode);
-  expect(doublyLinkedList.tail?.previous).toBe(thirdNode);
+  expect(doublyLinkedList.head?.next?.value).toBe(3);
+  expect(doublyLinkedList.tail?.value).toBe(2);
+  expect(doublyLinkedList.tail?.previous?.value).toBe(3);
   expect(doublyLinkedList.tail?.next).toBeNull();
   expect(doublyLinkedList.length).toBe(3);
 });
 
 test("insertAt - target node is neither head nor tail", () => {
   const doublyLinkedList = new DoublyLinkedListMaker();
-  const firstNode = new DoublyLinkedListNodeMaker(1);
-  const secondNode = new DoublyLinkedListNodeMaker(2);
-  const thirdNode = new DoublyLinkedListNodeMaker(3);
-  const fourthNode = new DoublyLinkedListNodeMaker(4);
 
-  doublyLinkedList.append(firstNode);
-  doublyLinkedList.append(secondNode);
-  doublyLinkedList.append(thirdNode);
-  doublyLinkedList.insertAt(fourthNode, 1);
-  expect(doublyLinkedList.tail).toBe(thirdNode);
-  expect(doublyLinkedList.tail?.previous).toBe(secondNode);
+  doublyLinkedList.append(1);
+  doublyLinkedList.append(2);
+  doublyLinkedList.append(3);
+  doublyLinkedList.insertAt(4, 1);
+  expect(doublyLinkedList.tail?.value).toBe(3);
+  expect(doublyLinkedList.tail?.previous?.value).toBe(2);
   expect(doublyLinkedList.tail?.next).toBeNull();
-  expect(doublyLinkedList.head).toBe(firstNode);
+  expect(doublyLinkedList.head?.value).toBe(1);
   expect(doublyLinkedList.head?.previous).toBeNull();
-  expect(doublyLinkedList.head?.next).toBe(fourthNode);
+  expect(doublyLinkedList.head?.next?.value).toBe(4);
   expect(doublyLinkedList.length).toBe(4);
 });
 
 test("remove - target node is either head or tail", () => {
   const doublyLinkedList = new DoublyLinkedListMaker();
-  const firstNode = new DoublyLinkedListNodeMaker(1);
 
-  expect(doublyLinkedList.remove(firstNode)).toBeNull();
+  expect(doublyLinkedList.remove(1)).toBeNull();
   expect(doublyLinkedList.length).toBe(0);
 
-  doublyLinkedList.append(firstNode);
-  expect(doublyLinkedList.remove(firstNode)).toBe(firstNode);
+  doublyLinkedList.append(1);
+  expect(doublyLinkedList.remove(1)).toBe(1);
   expect(doublyLinkedList.length).toBe(0);
 });
 
 test("remove - target node is head", () => {
   const doublyLinkedList = new DoublyLinkedListMaker();
-  const firstNode = new DoublyLinkedListNodeMaker(1);
-  const secondNode = new DoublyLinkedListNodeMaker(2);
-  doublyLinkedList.append(firstNode);
-  doublyLinkedList.append(secondNode);
-  expect(doublyLinkedList.remove(firstNode)).toBe(firstNode);
-  expect(doublyLinkedList.head).toBe(secondNode);
-  expect(doublyLinkedList.tail).toBe(secondNode);
+
+  doublyLinkedList.append(1);
+  doublyLinkedList.append(2);
+  expect(doublyLinkedList.remove(1)).toBe(1);
+  expect(doublyLinkedList.head?.value).toBe(2);
+  expect(doublyLinkedList.tail?.value).toBe(2);
   expect(doublyLinkedList.head?.previous).toBeNull();
   expect(doublyLinkedList.head?.next).toBeNull();
   expect(doublyLinkedList.length).toBe(1);
@@ -116,13 +103,12 @@ test("remove - target node is head", () => {
 
 test("remove - target node is tail", () => {
   const doublyLinkedList = new DoublyLinkedListMaker();
-  const firstNode = new DoublyLinkedListNodeMaker(1);
-  const secondNode = new DoublyLinkedListNodeMaker(2);
-  doublyLinkedList.append(firstNode);
-  doublyLinkedList.append(secondNode);
-  expect(doublyLinkedList.remove(secondNode)).toBe(secondNode);
-  expect(doublyLinkedList.head).toBe(firstNode);
-  expect(doublyLinkedList.tail).toBe(firstNode);
+
+  doublyLinkedList.append(1);
+  doublyLinkedList.append(2);
+  expect(doublyLinkedList.remove(2)).toBe(2);
+  expect(doublyLinkedList.head?.value).toBe(1);
+  expect(doublyLinkedList.tail?.value).toBe(1);
   expect(doublyLinkedList.head?.previous).toBeNull();
   expect(doublyLinkedList.head?.next).toBeNull();
   expect(doublyLinkedList.length).toBe(1);
@@ -130,17 +116,15 @@ test("remove - target node is tail", () => {
 
 test("remove - target node is neither head nor tail", () => {
   const doublyLinkedList = new DoublyLinkedListMaker();
-  const firstNode = new DoublyLinkedListNodeMaker(1);
-  const secondNode = new DoublyLinkedListNodeMaker(2);
-  const thirdNode = new DoublyLinkedListNodeMaker(3);
-  doublyLinkedList.append(firstNode);
-  doublyLinkedList.append(secondNode);
-  doublyLinkedList.append(thirdNode);
-  expect(doublyLinkedList.remove(secondNode)).toBe(secondNode);
-  expect(doublyLinkedList.head).toBe(firstNode);
+
+  doublyLinkedList.append(1);
+  doublyLinkedList.append(2);
+  doublyLinkedList.append(3);
+  expect(doublyLinkedList.remove(2)).toBe(2);
+  expect(doublyLinkedList.head?.value).toBe(1);
   expect(doublyLinkedList.head?.previous).toBeNull();
   expect(doublyLinkedList.head?.next).toBe(doublyLinkedList.tail);
-  expect(doublyLinkedList.tail).toBe(thirdNode);
+  expect(doublyLinkedList.tail?.value).toBe(3);
   expect(doublyLinkedList.tail?.previous).toBe(doublyLinkedList.head);
   expect(doublyLinkedList.tail?.next).toBe(null);
   expect(doublyLinkedList.length).toBe(2);
@@ -148,24 +132,23 @@ test("remove - target node is neither head nor tail", () => {
 
 test("removeAt - target node is either head or tail", () => {
   const doublyLinkedList = new DoublyLinkedListMaker();
+
   expect(doublyLinkedList.removeAt(0)).toBeNull();
   expect(doublyLinkedList.length).toBe(0);
 
-  const firstNode = new DoublyLinkedListNodeMaker(1);
-  doublyLinkedList.append(firstNode);
-  expect(doublyLinkedList.removeAt(0)).toBe(firstNode);
+  doublyLinkedList.append(1);
+  expect(doublyLinkedList.removeAt(0)).toBe(1);
   expect(doublyLinkedList.length).toBe(0);
 });
 
 test("removeAt - target node is head", () => {
   const doublyLinkedList = new DoublyLinkedListMaker();
-  const firstNode = new DoublyLinkedListNodeMaker(1);
-  const secondNode = new DoublyLinkedListNodeMaker(2);
-  doublyLinkedList.append(firstNode);
-  doublyLinkedList.append(secondNode);
-  expect(doublyLinkedList.removeAt(0)).toBe(firstNode);
-  expect(doublyLinkedList.head).toBe(secondNode);
-  expect(doublyLinkedList.tail).toBe(secondNode);
+
+  doublyLinkedList.append(1);
+  doublyLinkedList.append(2);
+  expect(doublyLinkedList.removeAt(0)).toBe(1);
+  expect(doublyLinkedList.head?.value).toBe(2);
+  expect(doublyLinkedList.tail?.value).toBe(2);
   expect(doublyLinkedList.head?.previous).toBeNull();
   expect(doublyLinkedList.head?.next).toBeNull();
   expect(doublyLinkedList.length).toBe(1);
@@ -173,13 +156,12 @@ test("removeAt - target node is head", () => {
 
 test("removeAt - target node is tail", () => {
   const doublyLinkedList = new DoublyLinkedListMaker();
-  const firstNode = new DoublyLinkedListNodeMaker(1);
-  const secondNode = new DoublyLinkedListNodeMaker(2);
-  doublyLinkedList.append(firstNode);
-  doublyLinkedList.append(secondNode);
-  expect(doublyLinkedList.removeAt(1)).toBe(secondNode);
-  expect(doublyLinkedList.head).toBe(firstNode);
-  expect(doublyLinkedList.tail).toBe(firstNode);
+
+  doublyLinkedList.append(1);
+  doublyLinkedList.append(2);
+  expect(doublyLinkedList.removeAt(1)).toBe(2);
+  expect(doublyLinkedList.head?.value).toBe(1);
+  expect(doublyLinkedList.tail?.value).toBe(1);
   expect(doublyLinkedList.head?.previous).toBeNull();
   expect(doublyLinkedList.head?.next).toBeNull();
   expect(doublyLinkedList.length).toBe(1);
@@ -187,17 +169,15 @@ test("removeAt - target node is tail", () => {
 
 test("removeAt - target node is neither head nor tail", () => {
   const doublyLinkedList = new DoublyLinkedListMaker();
-  const firstNode = new DoublyLinkedListNodeMaker(1);
-  const secondNode = new DoublyLinkedListNodeMaker(2);
-  const thirdNode = new DoublyLinkedListNodeMaker(3);
-  doublyLinkedList.append(firstNode);
-  doublyLinkedList.append(secondNode);
-  doublyLinkedList.append(thirdNode);
-  expect(doublyLinkedList.removeAt(1)).toBe(secondNode);
-  expect(doublyLinkedList.head).toBe(firstNode);
+
+  doublyLinkedList.append(1);
+  doublyLinkedList.append(2);
+  doublyLinkedList.append(3);
+  expect(doublyLinkedList.removeAt(1)).toBe(2);
+  expect(doublyLinkedList.head?.value).toBe(1);
   expect(doublyLinkedList.head?.previous).toBeNull();
   expect(doublyLinkedList.head?.next).toBe(doublyLinkedList.tail);
-  expect(doublyLinkedList.tail).toBe(thirdNode);
+  expect(doublyLinkedList.tail?.value).toBe(3);
   expect(doublyLinkedList.tail?.previous).toBe(doublyLinkedList.head);
   expect(doublyLinkedList.tail?.next).toBe(null);
   expect(doublyLinkedList.length).toBe(2);
@@ -205,57 +185,55 @@ test("removeAt - target node is neither head nor tail", () => {
 
 test("append - initial", () => {
   const doublyLinkedList = new DoublyLinkedListMaker();
-  const firstNode = new DoublyLinkedListNodeMaker(1);
-  doublyLinkedList.append(firstNode);
-  expect(doublyLinkedList.head).toBe(firstNode);
+
+  doublyLinkedList.append(1);
+  expect(doublyLinkedList.head?.value).toBe(1);
   expect(doublyLinkedList.head?.next).toBeNull();
-  expect(doublyLinkedList.tail).toBe(firstNode);
+  expect(doublyLinkedList.tail?.value).toBe(1);
   expect(doublyLinkedList.tail?.previous).toBeNull();
   expect(doublyLinkedList.length).toBe(1);
 });
 
 test("append - non-initial", () => {
   const doublyLinkedList = new DoublyLinkedListMaker();
-  const firstNode = new DoublyLinkedListNodeMaker(1);
-  const secondNode = new DoublyLinkedListNodeMaker(2);
-  doublyLinkedList.append(firstNode);
-  doublyLinkedList.append(secondNode);
-  expect(doublyLinkedList.head).toBe(firstNode);
-  expect(doublyLinkedList.head?.next).toBe(secondNode);
-  expect(doublyLinkedList.tail).toBe(secondNode);
-  expect(doublyLinkedList.tail?.previous).toBe(firstNode);
+
+  doublyLinkedList.append(1);
+  doublyLinkedList.append(2);
+  expect(doublyLinkedList.head?.value).toBe(1);
+  expect(doublyLinkedList.head?.next?.value).toBe(2);
+  expect(doublyLinkedList.tail?.value).toBe(2);
+  expect(doublyLinkedList.tail?.previous?.value).toBe(1);
   expect(doublyLinkedList.length).toBe(2);
 });
 
 test("prepend - initial", () => {
   const doublyLinkedList = new DoublyLinkedListMaker();
-  const firstNode = new DoublyLinkedListNodeMaker(1);
-  doublyLinkedList.prepend(firstNode);
-  expect(doublyLinkedList.head).toBe(firstNode);
+
+  doublyLinkedList.prepend(1);
+  expect(doublyLinkedList.head?.value).toBe(1);
   expect(doublyLinkedList.head?.next).toBeNull();
-  expect(doublyLinkedList.tail).toBe(firstNode);
+  expect(doublyLinkedList.tail?.value).toBe(1);
   expect(doublyLinkedList.tail?.previous).toBeNull();
   expect(doublyLinkedList.length).toBe(1);
 });
 
 test("prepend - non-initial", () => {
   const doublyLinkedList = new DoublyLinkedListMaker();
-  const firstNode = new DoublyLinkedListNodeMaker(1);
-  const secondNode = new DoublyLinkedListNodeMaker(2);
-  doublyLinkedList.prepend(firstNode);
-  doublyLinkedList.prepend(secondNode);
-  expect(doublyLinkedList.head).toBe(secondNode);
-  expect(doublyLinkedList.head?.next).toBe(firstNode);
-  expect(doublyLinkedList.tail).toBe(firstNode);
-  expect(doublyLinkedList.tail?.previous).toBe(secondNode);
+
+  doublyLinkedList.prepend(1);
+  doublyLinkedList.prepend(2);
+  expect(doublyLinkedList.head?.value).toBe(2);
+  expect(doublyLinkedList.head?.next?.value).toBe(1);
+  expect(doublyLinkedList.tail?.value).toBe(1);
+  expect(doublyLinkedList.tail?.previous?.value).toBe(2);
   expect(doublyLinkedList.length).toBe(2);
 });
 
 test("get", () => {
   const doublyLinkedList = new DoublyLinkedListMaker();
+
   expect(doublyLinkedList.get(0)).toBeNull();
 
-  const firstNode = new DoublyLinkedListNodeMaker(1);
-  doublyLinkedList.append(firstNode);
-  expect(doublyLinkedList.get(0)).toBe(firstNode);
+  doublyLinkedList.append(1);
+  expect(doublyLinkedList.get(0)).toBe(1);
 });

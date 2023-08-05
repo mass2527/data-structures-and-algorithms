@@ -1,13 +1,8 @@
 import { invariant } from "../../utils";
-import { LinkedList } from "./linked-list.types";
+import { LinkedList, SinglyLinkedListNode } from "./linked-list.types";
 
-export interface SinglyLinkedListNode<T> {
-  value: T;
-  next: SinglyLinkedListNode<T> | null;
-}
-
-export class SinglyLinkedListNodeMaker<T> implements SinglyLinkedListNode<T> {
-  next = null;
+class SinglyLinkedListNodeMaker<T> implements SinglyLinkedListNode<T> {
+  next: SinglyLinkedListNode<T> | null = null;
 
   constructor(public value: T) {
     this.value = value;
@@ -15,7 +10,7 @@ export class SinglyLinkedListNodeMaker<T> implements SinglyLinkedListNode<T> {
 }
 
 export class SinglyLinkedListMaker<T>
-  implements LinkedList<SinglyLinkedListNode<T>>
+  implements LinkedList<T, SinglyLinkedListNode<T>>
 {
   private _head: SinglyLinkedListNode<T> | null = null;
   private _tail: SinglyLinkedListNode<T> | null = null;
@@ -24,14 +19,25 @@ export class SinglyLinkedListMaker<T>
   get head() {
     return this._head;
   }
+  private set head(node: SinglyLinkedListNode<T> | null) {
+    this._head = node;
+  }
+
   get tail() {
     return this._tail;
   }
+  private set tail(node: SinglyLinkedListNode<T> | null) {
+    this._tail = node;
+  }
+
   get length() {
     return this._length;
   }
+  private set length(length: number) {
+    this._length = length;
+  }
 
-  insertAt(node: SinglyLinkedListNode<T>, index: number) {
+  insertAt(value: T, index: number) {
     if (
       (this.length === 0 && index !== 0) ||
       (this.length > 0 && index > this.length)
@@ -39,23 +45,24 @@ export class SinglyLinkedListMaker<T>
       return;
     }
 
-    const foundNode = this.find(index);
+    const node = new SinglyLinkedListNodeMaker(value);
+    const foundNode = this.findByIndex(index);
 
     if (!foundNode && index === 0) {
-      this._head = node;
-      this._tail = node;
+      this.head = node;
+      this.tail = node;
     } else if (
       foundNode?.currentNode === this.head &&
       foundNode?.currentNode === this.tail
     ) {
       const head = this.head;
-      this._head = node;
-      this._head.next = head;
+      this.head = node;
+      this.head.next = head;
     } else if (foundNode?.currentNode === this.head) {
       node.next = this.head;
-      this._head = node;
+      this.head = node;
     } else {
-      const prevNode = this.find(index - 1);
+      const prevNode = this.findByIndex(index - 1);
       invariant(prevNode);
       invariant(foundNode);
 
@@ -63,16 +70,18 @@ export class SinglyLinkedListMaker<T>
       node.next = foundNode.currentNode;
     }
 
-    this._length++;
+    this.length++;
   }
 
-  remove(node: SinglyLinkedListNode<T>) {
-    const foundNode = this.find(node);
+  remove(value: T) {
+    const foundNode = this.findBy(
+      ({ currentNode }) => currentNode?.value === value
+    );
     return foundNode ? this.removeAt(foundNode.currentIndex) : null;
   }
 
   removeAt(index: number) {
-    const foundNode = this.find(index);
+    const foundNode = this.findByIndex(index);
     if (!foundNode) {
       return null;
     }
@@ -81,66 +90,75 @@ export class SinglyLinkedListMaker<T>
       foundNode.currentNode === this.head &&
       foundNode.currentNode === this.tail
     ) {
-      this._head = null;
-      this._tail = null;
+      this.head = null;
+      this.tail = null;
     } else if (foundNode.currentNode === this.head) {
       const head = this.head;
-      this._head = this.head.next;
+      this.head = this.head.next;
       head.next = null;
     } else if (foundNode.currentNode === this.tail) {
-      const foundNode = this.find(this.length - 2);
+      const foundNode = this.findByIndex(this.length - 2);
       invariant(foundNode);
       foundNode.currentNode.next = null;
-      this._tail = foundNode.currentNode;
+      this.tail = foundNode.currentNode;
     } else {
-      const prevNode = this.find(index - 1);
+      const prevNode = this.findByIndex(index - 1);
       invariant(prevNode);
-      const targetNode = this.find(index);
+      const targetNode = this.findByIndex(index);
       invariant(targetNode);
       prevNode.currentNode.next = targetNode.currentNode.next;
       targetNode.currentNode.next = null;
     }
 
-    this._length--;
+    this.length--;
 
-    return foundNode.currentNode;
+    return foundNode.currentNode.value;
   }
 
-  append(node: SinglyLinkedListNode<T>) {
+  append(value: T) {
+    const node = new SinglyLinkedListNodeMaker(value);
+
     if (this.length === 0) {
-      this._head = node;
-      this._tail = node;
+      this.head = node;
+      this.tail = node;
     } else {
-      invariant(this._tail);
-      this._tail.next = node;
-      this._tail = node;
+      invariant(this.tail);
+      this.tail.next = node;
+      this.tail = node;
     }
-    this._length++;
+    this.length++;
   }
 
-  prepend(node: SinglyLinkedListNode<T>) {
+  prepend(value: T) {
+    const node = new SinglyLinkedListNodeMaker(value);
     if (this.length === 0) {
-      this._head = node;
-      this._tail = node;
+      this.head = node;
+      this.tail = node;
     } else {
       node.next = this.head;
-      this._head = node;
+      this.head = node;
     }
-    this._length++;
+    this.length++;
   }
 
   get(index: number) {
-    return this.find(index)?.currentNode ?? null;
+    return this.findByIndex(index)?.currentNode.value ?? null;
   }
 
-  private find(indexOrNode: number | SinglyLinkedListNode<T>) {
+  private findBy(
+    predicate: ({
+      currentNode,
+      currentIndex,
+    }: {
+      currentNode: SinglyLinkedListNode<T> | null;
+      currentIndex: number;
+    }) => boolean
+  ) {
     let currentIndex = 0;
     let currentNode = this.head;
 
     while (currentNode) {
-      if (
-        indexOrNode === (this.isNode(indexOrNode) ? currentNode : currentIndex)
-      ) {
+      if (predicate({ currentIndex, currentNode })) {
         return { currentNode, currentIndex };
       } else {
         currentIndex++;
@@ -151,7 +169,7 @@ export class SinglyLinkedListMaker<T>
     return null;
   }
 
-  private isNode<T>(value: any): value is SinglyLinkedListNode<T> {
-    return typeof value === "object" && "value" in value && "next" in value;
+  private findByIndex(index: number) {
+    return this.findBy(({ currentIndex }) => currentIndex === index);
   }
 }

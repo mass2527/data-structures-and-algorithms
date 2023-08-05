@@ -1,12 +1,6 @@
-import {
-  DoublyLinkedListMaker,
-  DoublyLinkedListNodeMaker,
-} from "./doubly-linked-list";
+import { DoublyLinkedListMaker } from "./doubly-linked-list";
 import { QueueMaker } from "./queue";
-import {
-  SinglyLinkedListMaker,
-  SinglyLinkedListNodeMaker,
-} from "./singly-linked-list";
+import { SinglyLinkedListMaker } from "./singly-linked-list";
 
 test("queue - with SinglyLinkedList", () => {
   const queue = new QueueMaker(new SinglyLinkedListMaker<number>());
@@ -16,20 +10,17 @@ test("queue - with SinglyLinkedList", () => {
   expect(queue.peek()).toBeNull();
 
   // enqueue
-  const firstNode = new SinglyLinkedListNodeMaker(1);
-  queue.enqueue(firstNode);
-  expect(queue.peek()).toBe(firstNode);
+  queue.enqueue(1);
+  expect(queue.peek()).toBe(1);
 
-  const secondNode = new SinglyLinkedListNodeMaker(2);
-  queue.enqueue(secondNode);
-  expect(queue.peek()).toBe(firstNode);
-  expect(queue.peek()?.next).toBe(secondNode);
+  queue.enqueue(2);
+  expect(queue.peek()).toBe(1);
 
   // dequeue
-  expect(queue.dequeue()).toBe(firstNode);
-  expect(queue.peek()).toBe(secondNode);
+  expect(queue.dequeue()).toBe(1);
+  expect(queue.peek()).toBe(2);
 
-  expect(queue.dequeue()).toBe(secondNode);
+  expect(queue.dequeue()).toBe(2);
   expect(queue.peek()).toBeNull();
 
   expect(queue.dequeue()).toBeNull();
@@ -43,20 +34,17 @@ test("queue - with DoublyLinkedList", () => {
   expect(queue.peek()).toBeNull();
 
   // enqueue
-  const firstNode = new DoublyLinkedListNodeMaker(1);
-  queue.enqueue(firstNode);
-  expect(queue.peek()).toBe(firstNode);
+  queue.enqueue(1);
+  expect(queue.peek()).toBe(1);
 
-  const secondNode = new DoublyLinkedListNodeMaker(2);
-  queue.enqueue(secondNode);
-  expect(queue.peek()).toBe(firstNode);
-  expect(queue.peek()?.next).toBe(secondNode);
+  queue.enqueue(2);
+  expect(queue.peek()).toBe(1);
 
   // dequeue
-  expect(queue.dequeue()).toBe(firstNode);
-  expect(queue.peek()).toBe(secondNode);
+  expect(queue.dequeue()).toBe(1);
+  expect(queue.peek()).toBe(2);
 
-  expect(queue.dequeue()).toBe(secondNode);
+  expect(queue.dequeue()).toBe(2);
   expect(queue.peek()).toBeNull();
 
   expect(queue.dequeue()).toBeNull();

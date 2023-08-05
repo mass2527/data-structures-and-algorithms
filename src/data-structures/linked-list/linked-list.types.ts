@@ -1,11 +1,26 @@
-export interface LinkedList<T> {
-  get head(): T | null;
-  get tail(): T | null;
+interface Node<T> {
+  value: T;
+}
+
+export interface SinglyLinkedListNode<T> extends Node<T> {
+  next: SinglyLinkedListNode<T> | null;
+}
+
+export interface DoublyLinkedListNode<T> extends Node<T> {
+  previous: DoublyLinkedListNode<T> | null;
+  next: DoublyLinkedListNode<T> | null;
+}
+export interface LinkedList<
+  TValue,
+  TNode extends SinglyLinkedListNode<TValue> | DoublyLinkedListNode<TValue>
+> {
+  get head(): TNode | null;
+  get tail(): TNode | null;
   get length(): number;
-  insertAt(node: T, index: number): void;
-  remove(node: T): T | null;
-  removeAt(index: number): T | null;
-  append(node: T): void;
-  prepend(node: T): void;
-  get(index: number): T | null;
+  insertAt(value: TValue, index: number): void;
+  remove(value: TValue): TValue | null;
+  removeAt(index: number): TValue | null;
+  append(value: TValue): void;
+  prepend(value: TValue): void;
+  get(index: number): TValue | null;
 }

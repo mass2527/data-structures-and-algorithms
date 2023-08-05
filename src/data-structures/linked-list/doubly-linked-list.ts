@@ -1,37 +1,33 @@
 import { invariant } from "../../utils";
-import { LinkedList } from "./linked-list.types";
+import { DoublyLinkedListNode, LinkedList } from "./linked-list.types";
 
-interface Node<T> {
-  value: T;
-  previous: Node<T> | null;
-  next: Node<T> | null;
-}
-
-export class DoublyLinkedListNodeMaker<T> implements Node<T> {
-  previous = null;
-  next = null;
+class DoublyLinkedListNodeMaker<T> implements DoublyLinkedListNode<T> {
+  previous: DoublyLinkedListNode<T> | null = null;
+  next: DoublyLinkedListNode<T> | null = null;
 
   constructor(public value: T) {
     this.value = value;
   }
 }
 
-export class DoublyLinkedListMaker<T> implements LinkedList<Node<T>> {
-  private _head: Node<T> | null = null;
-  private _tail: Node<T> | null = null;
+export class DoublyLinkedListMaker<T>
+  implements LinkedList<T, DoublyLinkedListNode<T>>
+{
+  private _head: DoublyLinkedListNode<T> | null = null;
+  private _tail: DoublyLinkedListNode<T> | null = null;
   private _length = 0;
 
   get head() {
     return this._head;
   }
-  private set head(node: Node<T> | null) {
+  private set head(node: DoublyLinkedListNode<T> | null) {
     this._head = node;
   }
 
   get tail() {
     return this._tail;
   }
-  private set tail(node: Node<T> | null) {
+  private set tail(node: DoublyLinkedListNode<T> | null) {
     this._tail = node;
   }
 
@@ -42,8 +38,9 @@ export class DoublyLinkedListMaker<T> implements LinkedList<Node<T>> {
     this._length = length;
   }
 
-  insertAt(node: Node<T>, index: number) {
-    const target = this.find(index);
+  insertAt(value: T, index: number) {
+    const node = new DoublyLinkedListNodeMaker(value);
+    const target = this.findByIndex(index);
     if (!target) {
       if (this.length === 0 && index === 0) {
         this.head = node;
@@ -79,15 +76,16 @@ export class DoublyLinkedListMaker<T> implements LinkedList<Node<T>> {
     this.length++;
   }
 
-  remove(node: Node<T>) {
-    return this._remove(node);
+  remove(value: T) {
+    return this._removeBy(({ currentNode }) => currentNode?.value === value);
   }
 
   removeAt(index: number) {
-    return this._remove(index);
+    return this._removeByIndex(index);
   }
 
-  append(node: Node<T>) {
+  append(value: T) {
+    const node = new DoublyLinkedListNodeMaker(value);
     if (this.length === 0) {
       this.head = node;
       this.tail = node;
@@ -101,7 +99,8 @@ export class DoublyLinkedListMaker<T> implements LinkedList<Node<T>> {
     this.length++;
   }
 
-  prepend(node: Node<T>) {
+  prepend(value: T) {
+    const node = new DoublyLinkedListNodeMaker(value);
     if (this.length === 0) {
       this.head = node;
       this.tail = node;
@@ -116,19 +115,27 @@ export class DoublyLinkedListMaker<T> implements LinkedList<Node<T>> {
   }
 
   get(index: number) {
-    return this.find(index)?.node ?? null;
+    return this.findByIndex(index)?.node.value ?? null;
   }
 
-  private find(indexOrNode: number | Node<T>) {
+  private findByIndex(index: number) {
+    return this.findBy(({ currentIndex }) => currentIndex === index);
+  }
+
+  private findBy(
+    predicate: ({
+      currentIndex,
+      currentNode,
+    }: {
+      currentIndex: number;
+      currentNode: DoublyLinkedListNode<T> | null;
+    }) => boolean
+  ) {
     let currentIndex = 0;
     let currentNode = this.head;
 
     while (currentNode) {
-      if (
-        typeof indexOrNode === "number"
-          ? currentIndex === indexOrNode
-          : currentNode === indexOrNode
-      ) {
+      if (predicate({ currentIndex, currentNode })) {
         return {
           index: currentIndex,
           node: currentNode,
@@ -140,8 +147,8 @@ export class DoublyLinkedListMaker<T> implements LinkedList<Node<T>> {
     }
   }
 
-  private _remove(indexOrNode: number | Node<T>) {
-    const target = this.find(indexOrNode);
+  private _removeBy(predicate: Parameters<typeof this.findBy>[0]) {
+    const target = this.findBy(predicate);
     if (!target) {
       return null;
     }
@@ -174,6 +181,10 @@ export class DoublyLinkedListMaker<T> implements LinkedList<Node<T>> {
 
     this.length--;
 
-    return target.node;
+    return target.node.value;
+  }
+
+  private _removeByIndex(index: number) {
+    return this._removeBy(({ currentIndex }) => currentIndex === index);
   }
 }
