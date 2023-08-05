@@ -13,7 +13,7 @@ interface Queue<T> {
 
 export class QueueMaker<T> implements Queue<T> {
   constructor(
-    private linkedList: LinkedList<
+    private readonly linkedList: LinkedList<
       T,
       SinglyLinkedListNode<T> | DoublyLinkedListNode<T>
     >
