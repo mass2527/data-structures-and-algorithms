@@ -1,44 +1,18 @@
 export function binarySearch(numbers: number[], target: number): boolean {
-  if (numbers.length === 0) {
-    return false;
-  }
+  let lowIndex = 0;
+  let highIndex = numbers.length;
 
-  let data = numbers;
-
-  while (data.length > 0) {
-    if (data.length === 1) {
-      if (data[0] === target) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-
-    if (isEven(data.length)) {
-      if (target <= data[data.length / 2 - 1]) {
-        data = data.slice(0, data.length / 2);
-      } else {
-        data = data.slice(data.length / 2, data.length);
-      }
+  while (lowIndex < highIndex) {
+    const middleIndex = Math.floor(lowIndex + (highIndex - lowIndex) / 2);
+    const middleValue = numbers[middleIndex];
+    if (middleValue === target) {
+      return true;
+    } else if (middleValue < target) {
+      lowIndex = middleIndex + 1;
     } else {
-      const centerIndex = Math.floor(data.length / 2);
-      const centerValue = data[centerIndex];
-
-      if (centerValue === target) {
-        return true;
-      } else {
-        if (target < centerValue) {
-          data = data.slice(0, centerIndex);
-        } else {
-          data = data.slice(centerIndex + 1, data.length);
-        }
-      }
+      highIndex = middleIndex;
     }
   }
 
   return false;
 }
-
-const isEven = (value: number) => {
-  return value % 2 === 0;
-};
