@@ -68,6 +68,7 @@ function walk(
   }
 
   //   post
+  path.pop();
 
   return false;
 }

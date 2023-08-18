@@ -1,6 +1,6 @@
 import { Point, mazeSolver } from "./maze-solver";
 
-test("maze solver", function () {
+test("maze solver - case 1", function () {
   const maze = [
     "xxxxxxxxxx x",
     "x        x x",
@@ -30,6 +30,23 @@ test("maze solver", function () {
 
   // there is only one path through
   const result = mazeSolver(maze, "x", { x: 10, y: 0 }, { x: 1, y: 5 });
+  expect(drawPath(maze, result)).toEqual(drawPath(maze, mazeResult));
+});
+
+test("maze solver - case 2", function () {
+  // prettier-ignore
+  const maze = [
+    "xxxxx",
+    "    x",
+    " xxxx"
+  ];
+
+  const mazeResult = [
+    { x: 0, y: 1 },
+    { x: 0, y: 2 },
+  ];
+
+  const result = mazeSolver(maze, "x", { x: 0, y: 1 }, { x: 0, y: 2 });
   expect(drawPath(maze, result)).toEqual(drawPath(maze, mazeResult));
 });
 
