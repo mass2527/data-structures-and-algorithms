@@ -38,37 +38,23 @@ export class SinglyLinkedListMaker<T>
   }
 
   insertAt(value: T, index: number) {
-    if (
-      (this.length === 0 && index !== 0) ||
-      (this.length > 0 && index > this.length)
-    ) {
+    if (index > this.length || index < 0) {
+      return;
+    } else if (index === this.length) {
+      this.append(value);
+      return;
+    } else if (index === 0) {
+      this.prepend(value);
       return;
     }
 
     const node = new SinglyLinkedListNodeMaker(value);
     const foundNode = this.findByIndex(index);
-
-    if (!foundNode && index === 0) {
-      this.head = node;
-      this.tail = node;
-    } else if (
-      foundNode?.currentNode === this.head &&
-      foundNode?.currentNode === this.tail
-    ) {
-      const head = this.head;
-      this.head = node;
-      this.head.next = head;
-    } else if (foundNode?.currentNode === this.head) {
-      node.next = this.head;
-      this.head = node;
-    } else {
-      const prevNode = this.findByIndex(index - 1);
-      invariant(prevNode);
-      invariant(foundNode);
-
-      prevNode.currentNode.next = node;
-      node.next = foundNode.currentNode;
-    }
+    const prevNode = this.findByIndex(index - 1);
+    invariant(prevNode);
+    invariant(foundNode);
+    prevNode.currentNode.next = node;
+    node.next = foundNode.currentNode;
 
     this.length++;
   }
