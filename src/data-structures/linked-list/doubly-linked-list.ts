@@ -40,38 +40,25 @@ export class DoublyLinkedListMaker<T>
 
   insertAt(value: T, index: number) {
     const node = new DoublyLinkedListNodeMaker(value);
-    const target = this.findByIndex(index);
-    if (!target) {
-      if (this.length === 0 && index === 0) {
-        this.head = node;
-        this.tail = node;
-        this.length++;
-      }
 
+    if (index > this.length || index < 0) {
+      return;
+    } else if (index === this.length) {
+      this.append(value);
+      return;
+    } else if (index === 0) {
+      this.prepend(value);
       return;
     }
 
-    if (
-      (target?.node === this.head && target.node === this.tail) ||
-      target?.node === this.head
-    ) {
-      node.next = this.head;
-      this.head.previous = node;
-      this.head = node;
-    } else if (target?.node === this.tail) {
-      node.next = this.tail;
-      node.previous = this.tail.previous;
-      invariant(this.tail.previous);
-      this.tail.previous.next = node;
-      this.tail.previous = node;
-    } else {
-      const previous = target.node.previous;
-      invariant(previous);
-      previous.next = node;
-      target.node.previous = node;
-      node.next = target.node;
-      node.previous = previous;
-    }
+    const target = this.findByIndex(index);
+    invariant(target);
+    const previous = target.node.previous;
+    invariant(previous);
+    previous.next = node;
+    target.node.previous = node;
+    node.next = target.node;
+    node.previous = previous;
 
     this.length++;
   }
